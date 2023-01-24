@@ -5,7 +5,7 @@ import axios from 'axios';
     method: 'get',
     params: {
       api_key: 'cfb3f1c097fdc1e68787a815ffed0794',
-      q: query,
+      query: query,
       page: page,
     },
   });

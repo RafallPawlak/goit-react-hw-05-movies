@@ -1,6 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { BsSearch } from 'react-icons/bs';
 import { fetchMovie } from "../../api/fetchApi";
+import { Loader } from '../../components/Loading/Loading';
 import MovieList from 'components/MovieList/MovieList';
 import style from './Movies.module.scss';
 
@@ -9,58 +11,54 @@ const Movies = () => {
   const query = searchParams.get('query') ?? '';
 
   const [movies, setMovies] = useState(null);
-  const [totalRezultMovie, setTotalRezMovie] = useState(null);
+  const [totalMovie, setTotalMovie] = useState(null);
   const [showLoading, setShowLoading] = useState(false);
   const [inputSearch, setInputSearch] = useState(query);
 
-    
-
   useEffect(() => {
-    console.log(query)
-    if (query === '') return;
+   if (query === '') return;
+    
     setMovies(null);
 
-    fetchMovie(`search/movie`, query, 1)
+    fetchMovie(`search/movie`, query)
       .then(data => {
         setMovies(data.results);
+        setTotalMovie(data.total_results);
+        setShowLoading(false);
       })
       .catch(console.log);
   }, [query]);
 
-  if (!movies) {
-    return;
-  }
-
-  const handleInput = (event) => {
+  const handleInput = event => {
     setInputSearch(event.currentTarget.value);
   }
 
    const handleSubmit = event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    setSearchParams({ query: form.elements.query.value });
-    form.reset();
+    const form = event.target;
+    const queryNormalized = form.query.value.toLowerCase().trim();
+    setSearchParams({ query: queryNormalized });
   };
-
 
   return (
     <>
       <form className={style.form} onSubmit={handleSubmit}>
-          <button type="submit" className={style.button}>
-            <span className={style.buttonLabel}>Search</span>
-          </button>
           <input
-            className={style.input}
             type="text"
-            name="query"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={handleInput}
-            value={inputSearch}
-          />
-        </form>
-      <MovieList movies={movies} titlePage={'Result search'} />
+          name="query"
+          className={style.input}
+          value={inputSearch}
+          onChange={handleInput}
+          placeholder="Enter movie name"
+        />
+        <button type="submit" className={style.button}>
+          <BsSearch size={14} />
+            <span className={style.buttonLabel}> Search</span>
+          </button>
+      </form>
+      {showLoading && <Loader />}
+      {movies && <MovieList movies={movies} />} 
+      {totalMovie === 0 && <div>Not found movies</div>}
     </>
   );
 };
