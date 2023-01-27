@@ -16,7 +16,7 @@ const Movies = () => {
   const [inputSearch, setInputSearch] = useState(query);
 
   useEffect(() => {
-   if (query === '') return;
+   if(!query) return;
     
     setMovies(null);
 

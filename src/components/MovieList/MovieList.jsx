@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import style from './MovieList.module.scss';
 
-const MovieList = ({ movies, titlePage = null }) => {
+const MovieList = ({ movies, titlePage }) => {
     const location = useLocation();
     
     return (

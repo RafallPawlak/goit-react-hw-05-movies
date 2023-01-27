@@ -18,9 +18,7 @@ const Home = () => {
   }
 
   return (
-    <>
       <MovieList movies={movies} titlePage={'Trending today'} />
-    </>
   );
 };
 

@@ -15,19 +15,19 @@ const InfoMovie = ({ movie }) => {
     } = movie;
     
     const userScore = Math.round(vote_average * 10);
-    const imgUrl = poster_path
-    ? `https://image.tmdb.org/t/p/w500${poster_path}`
-    : <FcFilmReel size={50} />
+    const imgUrl = `https://image.tmdb.org/t/p/w500${poster_path}`;
     
     return (
     <>
-      <div className={style.cardFilm}>
-        <img
-          src={imgUrl}
-          alt={title || name}
-          width="200"
-          className={style.img}
-        />
+        <div className={style.cardFilm}>
+          {(poster_path === null) ?
+            <FcFilmReel size={120} className={style.img} /> :
+            <img
+              src={imgUrl}
+              alt={title || name}
+              width="200"
+              className={style.img}
+            />}
         <div>
           <h2 className={style.title}>
             {title || name} ({(first_air_date || release_date).slice(0, 4)})
