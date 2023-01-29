@@ -20,7 +20,7 @@ const InfoMovie = ({ movie }) => {
     return (
     <>
         <div className={style.cardFilm}>
-          {(poster_path === null) ?
+          {(!poster_path) ?
             <FcFilmReel size={120} className={style.img} /> :
             <img
               src={imgUrl}
